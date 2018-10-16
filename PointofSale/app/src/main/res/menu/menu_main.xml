@@ -21,4 +21,9 @@
         android:icon="@android:drawable/ic_menu_search"
         app:showAsAction="ifRoom"
         />
+    <item
+        android:id="@+id/action_clear_all"
+        android:orderInCategory="100"
+        android:title="@string/clear_all"
+        app:showAsAction="never" />
 </menu>

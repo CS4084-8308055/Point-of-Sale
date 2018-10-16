@@ -122,12 +122,34 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_search:
                 showSearchDialog();
                 return true;
+            case R.id.action_clear_all:
+                clearAllDialog();
+                return true;
             case R.id.action_settings:
                 startActivity(new Intent(Settings.ACTION_LOCALE_SETTINGS));
                 return true;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void clearAllDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.remove);
+        builder.setMessage(R.string.remove_all_message);
+        builder.setNegativeButton(android.R.string.cancel, null);
+        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                mItems = new ArrayList<>();
+                for (int i = 0; i < mItems.size(); i++){
+                    mItems.remove(i);
+                }
+                mCurrentItem = new Item();
+                showCurrentItem();
+            }
+        });
+        builder.create().show();
     }
 
     private void showSearchDialog() {
