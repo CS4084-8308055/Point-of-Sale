@@ -114,10 +114,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_edit:
-                Toast.makeText(this, "TODO Edit", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.action_remove:
-                Toast.makeText(this, "TODO Remove", Toast.LENGTH_SHORT).show();
+                mItems.remove(mCurrentItem);
+                mCurrentItem = new Item();
+                showCurrentItem();
                 return true;
         }
         return super.onContextItemSelected(item);
