@@ -9,9 +9,16 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/action_reset"
-        android:title="Reset"
+        android:title="@string/reset"
         android:orderInCategory="100"
         android:icon="@android:drawable/ic_menu_revert"
+        app:showAsAction="ifRoom"
+        />
+    <item
+        android:id="@+id/action_search"
+        android:title="@string/search"
+        android:orderInCategory="100"
+        android:icon="@android:drawable/ic_menu_search"
         app:showAsAction="ifRoom"
         />
 </menu>
