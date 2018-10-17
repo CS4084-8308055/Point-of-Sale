@@ -50,16 +50,13 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                addItem();
+                insertItem(false);
              }
         });
     }
 
-    private void addItem() {
+    private void insertItem(final boolean isEdit) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        // Customise dialog
-        //builder.setMessage("Hello");
-        //builder.setPositiveButton("OK", null);
 
         View view = getLayoutInflater().inflate(R.layout.dialog_add, null, false);
         builder.setView(view);
@@ -68,6 +65,11 @@ public class MainActivity extends AppCompatActivity {
         final CalendarView deliveryDateView = view.findViewById(R.id.calendar_view);
         final GregorianCalendar calendar = new GregorianCalendar();
 
+        if (isEdit){
+            nameEditText.setText(mCurrentItem.getName());
+            quantityEditText.setText("" + mCurrentItem.getQuantity());
+            deliveryDateView.setDate(mCurrentItem.getDeliveryDateTime());
+        }
         deliveryDateView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
@@ -80,9 +82,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 String name = nameEditText.getText().toString();
                 int quantity = Integer.parseInt(quantityEditText.getText().toString());
-                mCurrentItem = new Item(name, quantity, calendar);
+
+                if (isEdit){
+                    mCurrentItem.setName(name);
+                    mCurrentItem.setQuantity(quantity);
+                    mCurrentItem.setDeliveryDate(calendar);
+                }else{
+                    mCurrentItem = new Item(name, quantity, calendar);
+                    mItems.add(mCurrentItem);
+                }
                 showCurrentItem();
-                mItems.add(mCurrentItem);
             }
         });
         builder.setNegativeButton(android.R.string.cancel, null);
@@ -114,6 +123,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_edit:
+                insertItem(true);
+
                 return true;
             case R.id.action_remove:
                 mItems.remove(mCurrentItem);
